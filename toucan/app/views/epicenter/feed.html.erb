@@ -1,0 +1,37 @@
+<h1>@<%= current_user.username %>'s Tucan Feed</h1>
+<p>Here's what's goin' on...</p>
+
+<div class="row">
+  <div class="col-md-3">
+    <div class="well">
+      <h4>Your Stats</h4>
+        <%= pluralize current_user.tweets.count, 'tweet' %>
+        <br>
+        <%= link_to following_path do %>
+        Following <%= pluralize @following_count, 'user' %>
+        <% end %>
+    </div>
+  </div>
+  <div class="col-md-6">
+    <% @following_tweets.each do |tweet| %>
+      <div class="well">
+        <%= render tweet %>
+      </div>
+      <% end %>
+  </div>
+
+  <div class="col-md-3">
+    <div class="well">
+      <h4>What's Trending!</h4>
+        <ul>
+          <% @trending_tags.each do |tag_id, count| %>
+            <% tag = Tag.find(tag_id) %>
+            <li>
+              <%= link_to tag.phrase, tag_tweets_path(id: tag.id) %>
+            </li>
+          <% end %>
+        </ul>
+    </div>
+  </div>
+
+</div>
